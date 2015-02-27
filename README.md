@@ -1,6 +1,6 @@
 # Simple neural network
 
-## Markus Dreyer, Feb 2015
+*Markus Dreyer, Feb 2015*
 
 A feedforward neural network for tagging (i.e., sequence labeling).
 
