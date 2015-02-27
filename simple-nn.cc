@@ -120,7 +120,7 @@ struct Options {
     }
 
     DBG("Running: "
-        << argv[0] << " -f " << nonlinear_fct << " -h " << hidden_layer_dim << " -n " << window_size
+        << argv[0] << " -f " << nonlinear_fct << " -H " << hidden_layer_dim << " -n " << window_size
         << " -l " << learn_rate << " -d \"" << data_dir << "\"" << (skip_test ? " -s" : ""));
   }
 
