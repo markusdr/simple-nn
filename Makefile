@@ -1,6 +1,7 @@
-# Define EIGEN and ADEPT in your Makefile. Example:
-# EIGEN=-I/home/software/eigen
-# ADEPT=-I/home/software/adept-1.0/include -L-I/home/software/adept-1.0/lib
+# Define EIGEN and ADEPT in your Makefile.include. 
+# Example:
+#  EIGEN=-I/home/software/eigen
+#  ADEPT=-I/home/software/adept-1.0/include -L-I/home/software/adept-1.0/lib
 include Makefile.include
 
 all: simple-nn
