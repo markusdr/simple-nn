@@ -75,7 +75,8 @@ struct Options {
       hidden_layer_dim(25),
       window_size(5),
       data_dir("data"),
-      skip_test(false)
+      skip_test(false),
+      learn_rate(0.01)
   {
     int c;
     while ((c = getopt (argc, argv, "d:f:H:n:l:th")) != -1)
@@ -119,7 +120,7 @@ struct Options {
 
     DBG("Running: "
         << argv[0] << " -f " << nonlinear_fct << " -h " << hidden_layer_dim << " -n " << window_size
-        << " -d \"" << data_dir << "\"" << (skip_test ? " -s" : ""));
+        << " -l " << learn_rate << " -d \"" << data_dir << "\"" << (skip_test ? " -s" : ""));
   }
 
   std::string nonlinear_fct;
@@ -264,8 +265,7 @@ public:
    */
   void Train() {
     DBG("Training");
-    // for (std::size_t i = 0; i < train_sequence.size() - 2 * context_len; ++i ) {
-    for (std::size_t i = 0; i < 1000; ++i ) {
+    for (std::size_t i = 0; i < train_sequence.size() - 2 * context_len; ++i ) {
       if ((i+1) % 20000 == 0) {
         DBG(i+1);
       }
@@ -281,7 +281,7 @@ public:
       // Update parameters (get_gradient is provided by the adept library.)
       for (std::size_t r = 0; r < W.rows(); ++r) {
         for (std::size_t c = 0; c < W.cols(); ++c) {
-          W(r, c) -= 10.0 * opts_.learn_rate * W(r, c).get_gradient();
+          W(r, c) -= opts_.learn_rate * W(r, c).get_gradient();
         }
       }
       for (std::size_t c = 0; c < opts_.hidden_layer_dim; ++c) {
@@ -318,7 +318,7 @@ private:
       std::getline(in, line);
       if (r == 0) {
         std::size_t num_floats = GetNumTokens(line);
-        DBG("Word vectors dimension: " << num_floats);
+        DBG("Found word vectors dimension: " << num_floats);
         word_vectors.resize(vocab->size(), num_floats);
         word_vec_dim = num_floats;
       }
