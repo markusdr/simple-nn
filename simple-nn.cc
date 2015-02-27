@@ -77,7 +77,7 @@ struct Options {
       window_size(5),
       data_dir("data"),
       skip_test(false),
-      learn_rate(0.01)
+      learn_rate(0.001)
   {
     int c;
     while ((c = getopt (argc, argv, "d:f:H:n:l:th")) != -1)
@@ -283,7 +283,7 @@ public:
       // Update parameters (get_gradient is provided by the adept library.)
       for (std::size_t r = 0; r < W.rows(); ++r) {
         for (std::size_t c = 0; c < W.cols(); ++c) {
-          W(r, c) -= opts_.learn_rate * W(r, c).get_gradient();
+          W(r, c) -= 10.0 * opts_.learn_rate * W(r, c).get_gradient();
         }
       }
       for (std::size_t c = 0; c < opts_.hidden_layer_dim; ++c) {
