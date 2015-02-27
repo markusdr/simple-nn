@@ -53,5 +53,5 @@ Simply run with defaults like this:
 
 ### Caveats
 
-It seems that Adept slows down the score computation considerably, so
-this is currently good for prototyping purposes only.
+It seems that Adept slows down the score computation during training
+considerably, so this is currently good for prototyping purposes only.

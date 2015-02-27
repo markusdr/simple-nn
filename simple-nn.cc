@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <set>
 #include <cmath>
 #include <stdexcept>
 #include <unordered_map>
@@ -266,7 +267,8 @@ public:
   void Train() {
     DBG("Training");
     for (std::size_t i = 0; i < train_sequence.size() - 2 * context_len; ++i ) {
-      if ((i+1) % 20000 == 0) {
+    // for (std::size_t i = 0; i < 10000; ++i ) { // faster test
+      if ((i+1) % 10000 == 0) {
         DBG(i+1);
       }
 
@@ -287,10 +289,15 @@ public:
       for (std::size_t c = 0; c < opts_.hidden_layer_dim; ++c) {
         V(0, c) -= opts_.learn_rate * V(0, c).get_gradient();
       }
+      std::set<Vocabulary::Id> word_ids; // removes duplicate words in window
       for (std::size_t r = 0; r < opts_.window_size; ++r) {
-        std::size_t word_id = train_sequence[i + r];
-        for (std::size_t c = 0; c < word_vectors.cols(); ++c) {
-          word_vectors(word_id, c) -= 0.1 * opts_.learn_rate * word_vectors(word_id, c).get_gradient();
+	word_ids.insert(train_sequence[i + r]);
+      }
+      for (std::set<Vocabulary::Id>::const_iterator it = word_ids.begin();
+	   it != word_ids.end(); ++it) {
+        for (std::size_t c = 0; c < word_vec_dim; ++c) {
+	  // use smaller learning rate here because word vectors have good initialization
+          word_vectors(*it, c) -= 0.1 * opts_.learn_rate * word_vectors(*it, c).get_gradient();
         }
       }
     }
