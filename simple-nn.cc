@@ -384,10 +384,12 @@ private:
     AdeptDouble score = ComputeScore(W, V, input);
     float label_f = (float)label;
     return -label_f * log(score) - (1.0 - label_f) * log(1.0 - score);
+    // AdeptDouble tmp = label_f - score; // squared error
+    // return tmp * tmp;
   }
 
   /**
-   * Copies all word vectors of the window into one row vectors
+   * Copies all word vectors of the window into one row vector
    */
   template<class Input>
   void GetInputVec(std::vector<Vocabulary::Id> const& seq,
