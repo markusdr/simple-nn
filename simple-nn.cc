@@ -80,7 +80,7 @@ struct Options {
       learn_rate(0.001)
   {
     int c;
-    while ((c = getopt (argc, argv, "d:f:H:n:l:th")) != -1)
+    while ((c = getopt (argc, argv, "d:f:H:n:l:sh")) != -1)
       switch (c) {
       case 'd':
         data_dir = std::string(optarg);
@@ -97,7 +97,7 @@ struct Options {
       case 'l':
         learn_rate = atof(optarg);
         break;
-      case 't':
+      case 's':
         skip_test = true;
         break;
       case 'h':
@@ -267,7 +267,6 @@ public:
   void Train() {
     DBG("Training");
     for (std::size_t i = 0; i < train_sequence.size() - 2 * context_len; ++i ) {
-    // for (std::size_t i = 0; i < 10000; ++i ) { // faster test
       if ((i+1) % 10000 == 0) {
         DBG(i+1);
       }
