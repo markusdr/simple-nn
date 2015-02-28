@@ -222,10 +222,7 @@ public:
     DBG("Testing");
     unsigned tp = 0, fp = 0, tn = 0, fn = 0;
 
-    s.new_recording(); // Avoids memory growth. TODO: We don't need adept at all here.
-    s.pause_recording();
-
-    // Now use float instead of AdeptDouble:
+    // Now use float instead of AdeptDouble for speed:
     W_float.resize(W.rows(), W.cols());
     for (std::size_t r = 0; r < W.rows(); ++r) {
       for (std::size_t c = 0; c < W.cols(); ++c) {
