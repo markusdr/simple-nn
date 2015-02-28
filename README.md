@@ -30,7 +30,19 @@ The code depends on two external libraries:
 * [Adept](http://www.met.reading.ac.uk/clouds/adept/) for automatic
   differentiation.
 
-To compile, specify the Eigen and Adept locations in the Makefile, and type `make`. Then type:
+Adept 1.0 (and earlier versions, presumably) have a bug in the `tanh`
+differentiation. To fix it, change line 1486 in `adept.h` from this:
+
+    ADEPT_DEFINE_UNARY_FUNCTION3(Tanh, tanh, Real e=exp(2.0*a_.value()), 4.0*e/((2.0+2)*e+1.0))
+
+to this:
+
+    ADEPT_DEFINE_UNARY_FUNCTION3(Tanh, tanh, Real tmp=tanh(a_.value()), 1.0-tmp*tmp)
+
+I hear that the bugfix will be included in the next Adept version.
+
+To compile `simple-nn`, specify the Eigen and Adept locations in the
+Makefile, and type `make`. Then type:
 
     ./simple-nn -h
 
